@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>webpie — portfolio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0c0c0c;
+  --border: #222;
+  --muted: #444;
+  --body: #888;
+  --main: #ccc;
+  --hi: #eee;
+  --green: #4dffaa;
+  --blue: #4dc8ff;
+  --red: #ff5555;
+  --yellow: #ffd166;
+  --font: 'IBM Plex Mono', monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 72px 28px 96px;
+}
+
+header { margin-bottom: 64px; }
+
+.logo {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.logo b { color: var(--green); font-weight: 400; }
+
+h1 {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 400;
+  color: var(--hi);
+  line-height: 1.25;
+  margin-bottom: 12px;
+  letter-spacing: -.02em;
+}
+h1 em { font-style: normal; color: var(--green); }
+
+.sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.stitle {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+section { margin-bottom: 64px; }
+
+/* skills */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 0;
+}
+.tag {
+  font-size: 11px;
+  color: var(--muted);
+}
+.tag::before { content: '#'; }
+.tag.hi { color: var(--body); }
+
+/* experience */
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.exp-item {
+  border-left: 1px solid var(--border);
+  padding-left: 20px;
+}
+
+.exp-target {
+  font-size: 13px;
+  color: var(--hi);
+  margin-bottom: 4px;
+}
+.exp-target a {
+  color: var(--green);
+  transition: opacity .15s;
+}
+.exp-target a:hover { opacity: .7; }
+
+.exp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.badge {
+  font-size: 10px;
+  letter-spacing: .06em;
+  padding: 2px 0;
+}
+.badge.crit { color: var(--red); }
+.badge.med  { color: var(--yellow); }
+.badge.info { color: var(--blue); }
+.badge.time { color: var(--muted); }
+
+.exp-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* projects */
+.proj-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.proj-item {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 520px) {
+  .proj-item { grid-template-columns: 1fr; gap: 6px; }
+}
+
+.proj-name {
+  font-size: 13px;
+  color: var(--green);
+}
+.proj-name a { transition: opacity .15s; }
+.proj-name a:hover { opacity: .7; }
+
+.proj-lang {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.proj-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.proj-desc b { color: var(--body); font-weight: 400; }
+
+/* contacts */
+.contacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+.contact .cl {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  display: block;
+  margin-bottom: 4px;
+}
+.contact .cv {
+  font-size: 12px;
+  color: var(--main);
+  transition: color .15s;
+}
+.contact:hover .cv { color: var(--green); }
+
+footer {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--border); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo">// <b>webpie</b> — portfolio</div>
+  <h1>web pentester<br><em>& infra auditor.</em></h1>
+  <div class="sub">web app security · infrastructure audit · tool development</div>
+</header>
+
+<section>
+  <div class="stitle">skills</div>
+  <div class="skills">
+    <span class="tag hi">web pentesting</span>
+    <span class="tag hi">infra audit</span>
+    <span class="tag hi">IDOR</span>
+    <span class="tag hi">CVE research</span>
+    <span class="tag">OWASP Top 10</span>
+    <span class="tag">network recon</span>
+    <span class="tag">SSL/TLS analysis</span>
+    <span class="tag">Rust</span>
+    <span class="tag">Python</span>
+    <span class="tag">Shell</span>
+    <span class="tag">Linux</span>
+    <span class="tag">VPN/proxy setup</span>
+    <span class="tag">FTP/server admin</span>
+  </div>
+</section>
+
+<section>
+  <div class="stitle">практический опыт</div>
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div class="exp-target">
+        <a href="https://forgotten-society.com" target="_blank">forgotten-society.com</a>
+      </div>
+      <div class="exp-meta">
+        <span class="badge crit">[critical] 2 CVE</span>
+        <span class="badge med">[total] 10 уязвимостей</span>
+        <span class="badge time">закрыт за 3 ч.</span>
+      </div>
+      <div class="exp-desc">
+        Обнаружены две критические CVE, всего найдено 10 уязвимостей.
+        Кейс закрыт спустя 3 часа после начала работы.
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-target">
+        <a href="https://serverchichi.online" target="_blank">serverchichi.online</a>
+      </div>
+      <div class="exp-meta">
+        <span class="badge crit">[critical] CVE (сертификаты)</span>
+        <span class="badge med">[total] 28 уязвимостей</span>
+        <span class="badge time">закрыт за 2 ч.</span>
+      </div>
+      <div class="exp-desc">
+        Обнаружена CVE с проблемой в сертификатах, а также несколько
+        некритических уязвимостей и малых проблем в безопасности.
+        Всего 28 findings. Кейс закрыт за 2 часа.
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-target">
+        <a href="https://dropmefiles.com" target="_blank">x.inetcom.ru (dropmefiles.com)</a>
+      </div>
+      <div class="exp-meta">
+        <span class="badge crit">[critical] IDOR</span>
+      </div>
+      <div class="exp-desc">
+        Обнаружена уязвимость типа IDOR — несанкционированный доступ
+        к чужим ресурсам через предсказуемые идентификаторы.
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-target">Собственный VLESS прокси-сервер</div>
+      <div class="exp-meta">
+        <span class="badge info">[infra]</span>
+      </div>
+      <div class="exp-desc">
+        Развёрнут и настроен личный VLESS прокси — конфигурация,
+        маршрутизация трафика, поддержка TLS.
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-target">Домашний FTP-сервер на Debian 11</div>
+      <div class="exp-meta">
+        <span class="badge info">[infra]</span>
+      </div>
+      <div class="exp-desc">
+        Настроен FTP-сервер на Debian 11 для личного использования —
+        управление доступом, конфигурация сервиса, работа с файловой системой.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="stitle">проекты</div>
+  <div class="proj-list">
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name"><a href="https://github.com/webp1e/num2sound" target="_blank">num2sound</a></div>
+        <div class="proj-lang">Rust</div>
+      </div>
+      <div class="proj-desc">
+        Программа, конвертирующая числа из файла в звук.
+        Требует <b>ffmpeg</b>. Запуск через <b>cargo run</b> — кладёшь <b>file.txt</b> в директорию проекта и вводишь название.
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name"><a href="https://github.com/webp1e/venvy" target="_blank">venvy</a></div>
+        <div class="proj-lang">Shell</div>
+      </div>
+      <div class="proj-desc">
+        Менеджер виртуальных окружений Python. Автоматизирует
+        рутину с <b>venv</b> — больше не нужно каждый раз создавать окружение вручную.
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name">minimessenger</div>
+        <div class="proj-lang">—</div>
+      </div>
+      <div class="proj-desc">
+        P2P мессенджер работающий по локальной сети. Без сервера,
+        без регистрации — прямое общение между узлами в сети.
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name">dinohack</div>
+        <div class="proj-lang">—</div>
+      </div>
+      <div class="proj-desc">
+        Небольшой набор скриптов для Google-динозаврика.
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name">cls</div>
+        <div class="proj-lang">—</div>
+      </div>
+      <div class="proj-desc">
+        Простая утилита для очистки буфера терминала.
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div>
+        <div class="proj-name">fufl</div>
+        <div class="proj-lang">—</div>
+      </div>
+      <div class="proj-desc">
+        Собственная замена <b>ffuf</b> — инструмент для фаззинга веб-приложений.
+        К сожалению, утерян.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="stitle">связь</div>
+  <div class="contacts">
+    <a class="contact" href="mailto:w3bpie@gmail.com">
+      <span class="cl">email</span>
+      <span class="cv">w3bpie@gmail.com</span>
+    </a>
+    <a class="contact" href="https://t.me/webp1e" target="_blank">
+      <span class="cl">telegram</span>
+      <span class="cv">@webp1e</span>
+    </a>
+    <a class="contact" href="https://github.com/webp1e" target="_blank">
+      <span class="cl">github</span>
+      <span class="cv">github.com/webp1e</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>// webpie · 2026</span>
+  <span>authorized testing only.</span>
+</footer>
+
+</div>
+</body>
+</html>
