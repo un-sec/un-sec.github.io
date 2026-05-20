@@ -1,0 +1,581 @@
+
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>blindspot</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+:root {
+  --bg: #09090b;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1a1a24 0%, #09090b 70%);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-hover: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.08);
+  --muted: #888899;
+  --body: #a1a1aa;
+  --main: #e4e4e7;
+  --hi: #ffffff;
+  --green: #4dffaa;
+  --green-glow: rgba(77, 255, 170, 0.15);
+  --blue: #4dc8ff;
+  --blue-glow: rgba(77, 200, 255, 0.15);
+  --red: #ff5555;
+  --font: 'IBM Plex Mono', monospace;
+}
+
+body {
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--body);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.8;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--green);
+  color: #000;
+}
+
+a { 
+  color: inherit; 
+  text-decoration: none; 
+  transition: all 0.3s ease; 
+}
+
+.wrap {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 72px 28px 96px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-up {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+/* Header */
+header {
+  margin-bottom: 72px;
+}
+
+.logo {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+}
+
+.logo b { 
+  color: var(--green); 
+  font-weight: 600; 
+}
+
+h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 500;
+  color: var(--hi);
+  line-height: 1.2;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+h1 em { 
+  font-style: normal; 
+  color: var(--green);
+  text-shadow: 0 0 20px var(--green-glow);
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Section Title */
+.stitle {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stitle::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Team */
+.team {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 80px;
+}
+
+@media (max-width: 640px) {
+  .team { grid-template-columns: 1fr; gap: 24px; }
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  background: var(--card-hover);
+}
+
+.card.a:hover {
+  border-color: rgba(77, 255, 170, 0.3);
+  box-shadow: 0 10px 30px var(--green-glow);
+}
+
+.card.b:hover {
+  border-color: rgba(77, 200, 255, 0.3);
+  box-shadow: 0 10px 30px var(--blue-glow);
+}
+
+.handle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card.a .handle { color: var(--green); }
+.card.b .handle { color: var(--blue); }
+
+.role {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tag {
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tag::before { content: '#'; opacity: 0.5; margin-right: 2px; }
+.tag.hi { color: var(--main); border-color: rgba(255, 255, 255, 0.15); }
+.card.a:hover .tag.hi { border-color: rgba(77, 255, 170, 0.3); }
+.card.b:hover .tag.hi { border-color: rgba(77, 200, 255, 0.3); }
+
+.bio {
+  font-size: 13px;
+  color: var(--body);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.links a {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card.a .links a:hover { color: var(--green); transform: translateX(4px); }
+.card.b .links a:hover { color: var(--blue); transform: translateX(4px); }
+
+/* Scope */
+.scope {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.scope-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 24px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.scope-item:hover {
+  background: var(--card-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.scope-item .ico {
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.scope-item .name {
+  font-size: 14px;
+  color: var(--hi);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.scope-item .desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Terminal Emulator */
+.term-wrapper {
+  margin-bottom: 80px;
+  border-radius: 10px;
+  background: #000;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.term-header {
+  background: #111;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.term-btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.term-btn.close { background: #ff5f56; }
+.term-btn.min { background: #ffbd2e; }
+.term-btn.max { background: #27c93f; }
+
+.term-title {
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 11px;
+  transform: translateX(-20px);
+}
+
+.term {
+  padding: 24px;
+}
+
+.term-body {
+  font-size: 13px;
+  line-height: 2;
+}
+
+.p   { color: var(--green); font-weight: 500; }
+.p2  { color: var(--blue); font-weight: 500; }
+.cmd { color: var(--main); }
+.out { color: var(--body); display: block; padding-left: 16px; position: relative; }
+.out::before { content: '>'; position: absolute; left: 0; color: var(--muted); opacity: 0.5; }
+.out.g { color: var(--green); }
+.out.b { color: var(--blue); }
+.out.r { color: var(--red); }
+.out.d { color: var(--muted); }
+
+.cursor {
+  display: inline-block;
+  width: 8px; height: 14px;
+  background: var(--green);
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+  box-shadow: 0 0 5px var(--green);
+}
+
+/* Contacts */
+.contacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 64px;
+}
+
+.contact {
+  display: block;
+  padding: 16px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.contact:hover {
+  background: var(--card-hover);
+  border-color: var(--green);
+}
+
+.contact .cl {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.contact .cv {
+  font-size: 13px;
+  color: var(--hi);
+  transition: color 0.15s;
+}
+
+.contact:hover .cv { color: var(--green); }
+
+/* Footer */
+footer {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="animate-up">
+  <div class="logo">// <b>blindspot</b> — offensive security research</div>
+  <h1>we break things<br>so others <em>don't have to.</em></h1>
+  <div class="sub">web pentesting · reverse engineering · infrastructure audit</div>
+</header>
+
+<div class="stitle animate-up delay-1">operators</div>
+<div class="team animate-up delay-1">
+
+  <div class="card a">
+    <div class="handle">webpie</div>
+    <div class="role">web pentester · infra auditor</div>
+    <div class="tags">
+      <span class="tag hi">web app pentesting</span>
+      <span class="tag hi">infra audit</span>
+      <span class="tag">OWASP</span>
+      <span class="tag">OSINT</span>
+      <span class="tag">wifi sniffing</span>
+      <span class="tag">network recon</span>
+      <span class="tag">Rust</span>
+      <span class="tag">Python</span>
+      <span class="tag">Shell</span>
+    </div>
+    <p class="bio">
+      Специализируется на тестировании инфраструктуры — сети, сервисы,
+      периметр. Находит то, что логи не замечают.
+    </p>
+    <div class="links">
+      <a href="https://github.com/webp1e" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        github/webp1e
+      </a>
+      <a href="mailto:w3bpie@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/></svg>
+        w3bpie@gmail.com
+      </a>
+      <a href="https://t.me/webp1e" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"/></svg>
+        @webp1e
+      </a>
+    </div>
+  </div>
+
+  <div class="card b">
+    <div class="handle">marpel</div>
+    <div class="role">reverse engineer · web researcher</div>
+    <div class="tags">
+      <span class="tag hi">reverse engineering</span>
+      <span class="tag hi">web recon</span>
+      <span class="tag">wifi sniffing</span>
+      <span class="tag">cryptography</span>
+      <span class="tag">OSINT</span>
+      <span class="tag">Chrome extensions</span>
+      <span class="tag">Python</span>
+      <span class="tag">JavaScript</span>
+      <span class="tag">Shell</span>
+      <span class="tag">C</span>
+    </div>
+    <p class="bio">
+      Смотрит на сайт глазами атакующего снаружи. Разбирает клиентскую логику
+      и ломает то, что должно было быть скрыто.
+    </p>
+    <div class="links">
+      <a href="https://github.com/marpelskiy" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        github/marpelskiy
+      </a>
+      <a href="mailto:marpelskiy98@cocaine.ninja">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/></svg>
+        marpelskiy98@cocaine.ninja
+      </a>
+      <a href="https://t.me/localhost54" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"/></svg>
+        @localhost54
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="stitle animate-up delay-2">scope</div>
+<div class="scope animate-up delay-2">
+  <div class="scope-item">
+    <div class="ico">[INF]</div>
+    <div class="name">Infra Audit</div>
+    <div class="desc">Периметр, порты, сервисы, SSL, DNS, misconfig</div>
+  </div>
+  <div class="scope-item">
+    <div class="ico">[WEB]</div>
+    <div class="name">Web Pentest</div>
+    <div class="desc">OWASP Top 10, auth bypass, IDOR, injections, logic flaws</div>
+  </div>
+  <div class="scope-item">
+    <div class="ico">[REV]</div>
+    <div class="name">Reverse Eng.</div>
+    <div class="desc">JS deobfuscation, binary analysis, client-side secrets</div>
+  </div>
+  <div class="scope-item">
+    <div class="ico">[RPT]</div>
+    <div class="name">Reporting</div>
+    <div class="desc">Детальные отчёты с PoC и рекомендациями по патчу</div>
+  </div>
+</div>
+
+<div class="stitle animate-up delay-3">recon sample</div>
+<div class="term-wrapper animate-up delay-3">
+  <div class="term-header">
+    <div class="term-btn close"></div>
+    <div class="term-btn min"></div>
+    <div class="term-btn max"></div>
+    <div class="term-title">webpie@archlinux:~</div>
+  </div>
+  <div class="term">
+    <div class="term-body">
+      <div><span class="p">webpie@archlinux</span>:<span class="p2">~</span>$ <span class="cmd">nmap -sV -sC --open target.example.com</span></div>
+      <span class="out d">Starting Nmap 7.94 ...</span>
+      <span class="out g">PORT      STATE  SERVICE  VERSION</span>
+      <span class="out">80/tcp    open   http     nginx 1.24.0</span>
+      <span class="out">443/tcp   open   ssl/http nginx</span>
+      <span class="out r">8080/tcp  open   http     Apache Tomcat 9.0.71  ← outdated</span>
+      <br>
+      <div><span class="p">webpie@archlinux</span>:<span class="p2">~</span>$ <span class="cmd">nuclei -u https://target.example.com -t exposures/</span></div>
+      <span class="out r">[critical] CVE-2023-XXXX — exposed admin panel /manager/html</span>
+      <span class="out b">[info] X-Frame-Options header missing</span>
+      <span class="out b">[info] Content-Security-Policy not set</span>
+      <br>
+      <div><span class="p">webpie@archlinux</span>:<span class="p2">~</span>$ <span class="cursor"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="stitle animate-up delay-4">связь</div>
+<div class="contacts animate-up delay-4">
+  <a class="contact" href="mailto:w3bpie@gmail.com">
+    <span class="cl">webpie · email</span>
+    <span class="cv">w3bpie@gmail.com</span>
+  </a>
+  <a class="contact" href="https://t.me/webp1e" target="_blank">
+    <span class="cl">webpie · telegram</span>
+    <span class="cv">@webp1e</span>
+  </a>
+  <a class="contact" href="mailto:marpelskiy98@cocaine.ninja">
+    <span class="cl">marpel · email</span>
+    <span class="cv">marpelskiy98@cocaine.ninja</span>
+  </a>
+  <a class="contact" href="https://t.me/localhost54" target="_blank">
+    <span class="cl">marpel · telegram</span>
+    <span class="cv">@localhost54</span>
+  </a>
+</div>
+
+<footer class="animate-up delay-5">
+  <span>// blindspot · 2026</span>
+  <span>authorized testing only.</span>
+</footer>
+
+</div>
+</body>
+</html>
+
+
