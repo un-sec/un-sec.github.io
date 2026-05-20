@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MARPEL</title>
+
+<style>
+:root{
+    --bg:#05070a;
+    --green:#22c55e;
+    --blue:#38bdf8;
+    --stroke:rgba(148,163,184,0.15);
+}
+
+body{
+    margin:0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    background: radial-gradient(circle at 20% 10%, rgba(34,197,94,0.12), transparent 40%),
+                radial-gradient(circle at 80% 30%, rgba(56,189,248,0.10), transparent 45%),
+                var(--bg);
+    color:#cbd5e1;
+    overflow-x:hidden;
+}
+
+/* animated glow blobs */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(34,197,94,0.12), transparent 30%),
+        radial-gradient(circle at 70% 60%, rgba(56,189,248,0.10), transparent 40%);
+    pointer-events:none;
+    transition:0.2s;
+}
+
+header{
+    text-align:center;
+    padding:90px 20px 40px;
+}
+
+h1{
+    font-size:5em;
+    margin:0;
+    color:var(--green);
+    letter-spacing:8px;
+    text-shadow:0 0 25px rgba(34,197,94,0.25);
+}
+
+.sub{
+    color:var(--blue);
+    margin-top:10px;
+}
+
+/* layout */
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:40px 20px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:rgba(15,23,42,0.55);
+    border:1px solid var(--stroke);
+    border-radius:16px;
+    padding:18px;
+    transition:0.25s ease;
+    transform-style:preserve-3d;
+    position:relative;
+    overflow:hidden;
+}
+
+/* glow overlay */
+.card::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(56,189,248,0.18), transparent 40%);
+    opacity:0;
+    transition:0.2s;
+}
+
+.card:hover::before{
+    opacity:1;
+}
+
+.card:hover{
+    border-color:var(--green);
+    transform: translateY(-5px) scale(1.01);
+}
+
+/* tags */
+.tag{
+    display:inline-block;
+    margin:4px;
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:0.85em;
+    background:#0b1220;
+    border:1px solid var(--stroke);
+    color:var(--blue);
+    transition:0.2s;
+}
+
+.tag:hover{
+    transform:translateY(-2px);
+    border-color:var(--green);
+}
+
+/* projects */
+.project{
+    padding:14px 0;
+    border-bottom:1px solid rgba(148,163,184,0.12);
+}
+
+.project b{
+    color:#fff;
+}
+
+a{
+    color:var(--green);
+    text-decoration:none;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+/* fade in */
+.reveal{
+    opacity:0;
+    transform:translateY(30px);
+    transition:0.7s ease;
+}
+
+.reveal.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+@media(max-width:900px){
+    .container{
+        grid-template-columns:1fr;
+    }
+    h1{font-size:3.5em;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>MARPEL</h1>
+    <div class="sub">Localhost54 • Systems & Security Engineer</div>
+</header>
+
+<div class="container">
+
+    <div class="card reveal tilt">
+        <h3>OS / System</h3>
+        <span class="tag">Arch</span>
+        <span class="tag">Void</span>
+        <span class="tag">Gentoo</span>
+        <span class="tag">Debian</span>
+        <span class="tag">CachyOS</span>
+        <span class="tag">Fedora</span>
+        <span class="tag">NixOS</span>
+    </div>
+
+    <div class="card reveal tilt">
+        <h3>Languages</h3>
+        <span class="tag">C++</span>
+        <span class="tag">C</span>
+        <span class="tag">Python</span>
+        <span class="tag">Assembly</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Arduino</span>
+    </div>
+
+    <div class="card reveal tilt">
+        <h3>Projects</h3>
+
+        <div class="project"><b>Answer Now</b><br>AI test solver</div>
+        <div class="project"><b>pySniff</b><br>WiFi sniffer + Telegram</div>
+        <div class="project"><b>Crypton</b><br>Encryption toolkit</div>
+        <div class="project"><b>Obfuscator</b><br>Binary protection system</div>
+    </div>
+
+    <div class="card reveal tilt">
+        <h3>Contact</h3>
+        Telegram: <a href="https://t.me/Localhost54">@Localhost54</a><br>
+        Email: marpelskiy98@cocaine.ninja
+    </div>
+
+</div>
+
+<script>
+// scroll reveal
+const reveal = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((e)=>{
+    e.forEach(i=>{
+        if(i.isIntersecting) i.target.classList.add('show');
+    });
+},{threshold:0.1});
+
+reveal.forEach(r=>obs.observe(r));
+
+// mouse glow tracking
+document.addEventListener('mousemove', (e)=>{
+    document.body.style.setProperty('--x', e.clientX + 'px');
+    document.body.style.setProperty('--y', e.clientY + 'px');
+});
+
+// tilt effect
+document.querySelectorAll('.tilt').forEach(card=>{
+    card.addEventListener('mousemove',(e)=>{
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        card.style.setProperty('--mx', x + 'px');
+        card.style.setProperty('--my', y + 'px');
+
+        const rx = ((y / rect.height) - 0.5) * -6;
+        const ry = ((x / rect.width) - 0.5) * 6;
+
+        card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('mouseleave', ()=>{
+        card.style.transform = '';
+    });
+});
+</script>
+
+</body>
+</html>
